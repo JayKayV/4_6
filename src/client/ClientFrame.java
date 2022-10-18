@@ -148,7 +148,7 @@ public class ClientFrame extends JFrame implements WindowListener{
         setTitle("Main");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setText("Home");
+        jLabel1.setText("Welcome");
 
         jListActive.setBorder(javax.swing.BorderFactory.createTitledBorder("Online"));
         jListActive.addMouseListener(new java.awt.event.MouseAdapter() {

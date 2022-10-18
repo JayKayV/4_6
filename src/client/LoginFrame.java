@@ -133,7 +133,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Port Server");
 
-        jLabel5.setText("Username");
+        jLabel5.setText("Nickname");
 
         jbtnConnectServer.setText("Connect");
         jbtnConnectServer.addActionListener(new java.awt.event.ActionListener() {

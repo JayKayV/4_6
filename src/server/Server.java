@@ -70,7 +70,7 @@ public class Server {
         if (getData != null) {
             if (!isExsistName(getData.get(0))) {
                 saveNewPeer(getData.get(0), connection.getInetAddress().toString(), Integer.parseInt(getData.get(1)));
-                ServerFrame.updateNumberClient();
+//                ServerFrame.updateNumberClient();
             } else {
                 return false;
             }
@@ -80,7 +80,7 @@ public class Server {
             Decode.updatePeerOnline(dataPeer, msg);
             if (size != dataPeer.size()) {
                 isExit = true;
-                ServerFrame.decreaseNumberClient();
+//                ServerFrame.decreaseNumberClient();
             }
         }
         return true;

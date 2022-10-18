@@ -5,9 +5,21 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import data.Peer;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.EtchedBorder;
 
 public class ServerFrame extends javax.swing.JFrame {
+
     public static int port = 8080;
+    private boolean isViewUsers = false;
     static Server server;
 
     public ServerFrame() {
@@ -16,52 +28,56 @@ public class ServerFrame extends javax.swing.JFrame {
         setLocationRelativeTo(this);
         try {
             txtIP.setText(Inet4Address.getLocalHost().getHostAddress());
-	} catch (UnknownHostException e) {
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
 //        txtPort.setForeground(Color.RED);
         txtPort.setText("8080");
 //        txtUsers.setText("0");
-//        txtStatus.setForeground(Color.RED);
-        
+        txtStatus.setForeground(Color.RED);
+
         btnStartServer.setFocusable(false);
         btnStopServer.setEnabled(false);
         btnStopServer.setFocusable(false);
+
+        btnViewUsers.setEnabled(false);
+        btnViewUsers.setFocusable(false);
+
 //        txtMessage.setBackground(Color.BLACK);
-        txtMessage.setForeground(Color.BLACK);
+//        txtMessage.setForeground(Color.BLACK);
     }
-    
+
     public static void main(String[] args) {
-	java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ServerFrame().setVisible(true);
             }
         });
     }
-    public void updateMessage(String msg) {
-	txtMessage.append(msg + "\n");
-    }
 
-    public static void updateNumberClient() {
+//    public void updateMessage(String msg) {
+//        txtMessage.append(msg + "\n");
+//    }
+
+//    public static void updateNumberClient() {
 //	int number = Integer.parseInt(txtUsers.getText());
 //	txtUsers.setText(Integer.toString(number + 1));
-	displayUser();
-    }
+//        displayUser();
+//    }
 
-    public static void decreaseNumberClient() {
+//    public static void decreaseNumberClient() {
 //	int number = Integer.parseInt(txtUsers.getText());
 //	txtUsers.setText(Integer.toString(number - 1));
-	displayUser();
-    }
+//        displayUser();
+//    }
 
-    static void displayUser() {
-	txtMessage.setText("");
-	ArrayList<Peer> list = server.getListUser();
-	for (int i = 0; i < list.size(); i++) {
-            txtMessage.append((i + 1) + "\t" + list.get(i).getName() + "\n");
-        }
-    }
-    
+//    static void displayUser() {
+//        txtMessage.setText("");
+//        ArrayList<Peer> list = server.getListUser();
+//        for (int i = 0; i < list.size(); i++) {
+//            txtMessage.append((i + 1) + "\t" + list.get(i).getName() + "\n");
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,10 +94,10 @@ public class ServerFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btnStartServer = new javax.swing.JButton();
         btnStopServer = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtMessage = new javax.swing.JTextArea();
         txtIP = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        btnViewUsers = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txtStatus = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Server Frame");
@@ -111,114 +127,180 @@ public class ServerFrame extends javax.swing.JFrame {
             }
         });
 
-        txtMessage.setEditable(false);
-        txtMessage.setColumns(20);
-        txtMessage.setRows(5);
-        jScrollPane2.setViewportView(txtMessage);
+        btnViewUsers.setText("View users");
+        btnViewUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewUsersActionPerformed(evt);
+            }
+        });
 
-        jLabel6.setText("All users");
+        jLabel4.setText("Status");
+
+        txtStatus.setEditable(false);
+        txtStatus.setForeground(new java.awt.Color(255, 51, 51));
+        txtStatus.setText("OFF");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnStartServer, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(262, 262, 262)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(42, 42, 42))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnStartServer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(3, 3, 3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(42, 42, 42)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtPort)
+                                    .addComponent(txtIP)
+                                    .addComponent(txtStatus)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addComponent(btnStopServer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(36, 36, 36))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(btnStopServer, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(100, 100, 100))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(319, 319, 319)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(65, 65, 65)
+                        .addComponent(btnViewUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(100, 100, 100)))
+                .addGap(260, 260, 260))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(335, 335, 335)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(325, 325, 325))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(50, 50, 50)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(59, 59, 59)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnStartServer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnStopServer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addGap(106, 106, 106)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnStartServer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStopServer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnViewUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
         // TODO add your handling code here:
 //        txtUsers.setText("0");
-	try {
+        try {
             server.stopserver();
-            updateMessage("STOP SERVER");
+//            updateMessage("STOP SERVER");
+            txtStatus.setText("OFF");
+            txtStatus.setForeground(Color.RED);
             btnStopServer.setEnabled(false);
+            btnViewUsers.setEnabled(false);
             btnStartServer.setEnabled(true);
-	} catch (Exception ex) {
-            updateMessage("STOP SERVER");
-//            txtStatus.setText("OFF");
-//            txtStatus.setForeground(Color.RED);
+        } catch (Exception ex) {
+//            updateMessage("STOP SERVER");
+            txtStatus.setText("OFF");
+            txtStatus.setForeground(Color.RED);
             btnStopServer.setEnabled(false);
+            btnViewUsers.setEnabled(false);
             btnStartServer.setEnabled(true);
-	}
+        }
     }//GEN-LAST:event_btnStopServerActionPerformed
 
     private void btnStartServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartServerActionPerformed
         // TODO add your handling code here:
         try {
+            isViewUsers = true;
             port = Integer.valueOf(txtPort.getText());
             server = new Server(port);
-            updateMessage("START SERVER ON PORT " + port);
-//            txtStatus.setText("RUNNING...");
-//            txtStatus.setForeground(Color.GREEN);
+//            updateMessage("START SERVER ON PORT " + port);
+            txtStatus.setText("RUNNING...");
+            txtStatus.setForeground(Color.GREEN);
             btnStopServer.setEnabled(true);
+            btnViewUsers.setEnabled(true);
             btnStartServer.setEnabled(false);
-	} catch (Exception e) {
-            updateMessage("START ERROR");
-	}
+        } catch (Exception e) {
+//            updateMessage("START ERROR");
+            JOptionPane.showMessageDialog(this, "START ERROR");
+        }
     }//GEN-LAST:event_btnStartServerActionPerformed
+
+    private void btnViewUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewUsersActionPerformed
+        // TODO add your handling code here:
+        if (isViewUsers && !server.isStop) {
+            btnViewUsers.setEnabled(!isViewUsers);
+            JFrame frame = new JFrame();
+            
+            JPanel panel1 = new JPanel();
+            panel1.setLayout(new BorderLayout());
+
+            JTextArea jTextArea = new JTextArea();
+            jTextArea.setText("");
+            jTextArea.setEditable(false);
+            jTextArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
+            ArrayList<Peer> list = server.getListUser();
+            jTextArea.append("Total users: " + list.size()+"\n");
+            for (int i = 0; i < list.size(); i++) {
+                jTextArea.append((i + 1) + "\t" + list.get(i).getName() + "\n");
+            }
+            
+            panel1.add(jTextArea);
+            frame.add(panel1);
+            panel1.setBorder(new EtchedBorder());
+
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent ev) {
+                    try {
+                        isViewUsers = true;
+                        btnViewUsers.setEnabled(isViewUsers && !server.isStop);
+                        frame.dispose();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            
+            frame.setSize(800, 700);
+            frame.setTitle("All users");
+            frame.setLocationRelativeTo(this);
+            frame.setVisible(true);
+        }
+    }//GEN-LAST:event_btnViewUsersActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStartServer;
     private javax.swing.JButton btnStopServer;
+    private javax.swing.JButton btnViewUsers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtIP;
-    private static javax.swing.JTextArea txtMessage;
     private javax.swing.JTextField txtPort;
+    private javax.swing.JTextField txtStatus;
     // End of variables declaration//GEN-END:variables
 
 }
