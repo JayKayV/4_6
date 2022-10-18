@@ -1,5 +1,5 @@
-import tags.Decode;
-import tags.Tags;
+import utils.Decode;
+import utils.Tags;
 
 public class Test {
 

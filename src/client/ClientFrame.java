@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client;
 
 import java.awt.event.MouseEvent;
@@ -17,17 +12,9 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import tags.Tags;
+import utils.Tags;
 
-/**
- *
- * @author boixi
- */
-public class MainJFrame extends JFrame implements WindowListener{
-
-    /**
-     * Creates new form MainJFrame
-     */
+public class ClientFrame extends JFrame implements WindowListener{
     private Client clientNode;
     private static String IPClient = "", nameUser = "", dataUser = "";
     private static int portClient = 0;
@@ -36,7 +23,7 @@ public class MainJFrame extends JFrame implements WindowListener{
     static DefaultListModel<String> model = new DefaultListModel<>();
     String file = System.getProperty("user.dir") + "\\Server.txt";
     
-    public MainJFrame(String ipClient, int clientPort, String name, String msg, int serverPort) {
+    public ClientFrame(String ipClient, int clientPort, String name, String msg, int serverPort) {
         IPClient = ipClient;
         portClient = clientPort;
 	nameUser = name;
@@ -46,14 +33,14 @@ public class MainJFrame extends JFrame implements WindowListener{
         
         java.awt.EventQueue.invokeLater(() -> {
             try {
-                new MainJFrame().setVisible(true);
+                new ClientFrame().setVisible(true);
             } catch (Exception ex) {
-                Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
     
-    public MainJFrame() throws Exception {
+    public ClientFrame() throws Exception {
         initComponents();
         setSize(900, 700);
         setLocationRelativeTo(this);
@@ -63,7 +50,7 @@ public class MainJFrame extends JFrame implements WindowListener{
 	updateFriendMainFrame("12");
 	clientNode = new Client(IPClient, portClient, nameUser, dataUser, portServer);
         jListActive.setModel(model);
-        jLabel2.setText("Welcome, " + nameUser);
+        jLabel1.setText("Welcome " + nameUser);
         jtxtServerPort.setText(String.valueOf(portServer));
         jtxtClientPort.setText(String.valueOf(portClient));
         
@@ -97,7 +84,7 @@ public class MainJFrame extends JFrame implements WindowListener{
             bw.newLine();
             bw.close();
 
-            JOptionPane.showMessageDialog(this, "Server đã được lưu lại.");
+            JOptionPane.showMessageDialog(this, "Saved");
             //btnSaveServer.setVisible(false);
         } catch (Exception e1) {
             // TODO Auto-generated catch block
@@ -107,7 +94,7 @@ public class MainJFrame extends JFrame implements WindowListener{
     
     private void connectChat() {
 	// TODO Auto-generated method stub
-	int n = JOptionPane.showConfirmDialog(this, "Bạn có muốn kết nối với người này không?", "Kết nối", JOptionPane.YES_NO_OPTION);
+	int n = JOptionPane.showConfirmDialog(this, "Do you want to connect with this user?", "Connect", JOptionPane.YES_NO_OPTION);
 	if (n == 0) {
             System.out.println(name);
             if (name.equals("") || Client.clientarray == null) {
@@ -150,7 +137,6 @@ public class MainJFrame extends JFrame implements WindowListener{
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListActive = new javax.swing.JList<>();
-        jLabel2 = new javax.swing.JLabel();
         jtxtIP = new javax.swing.JTextField();
         jtxtClientPort = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -164,7 +150,7 @@ public class MainJFrame extends JFrame implements WindowListener{
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setText("Home");
 
-        jListActive.setBorder(javax.swing.BorderFactory.createTitledBorder("List active users"));
+        jListActive.setBorder(javax.swing.BorderFactory.createTitledBorder("Online"));
         jListActive.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jListActiveMouseClicked(evt);
@@ -172,24 +158,23 @@ public class MainJFrame extends JFrame implements WindowListener{
         });
         jScrollPane2.setViewportView(jListActive);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Welcome, ");
-
         jtxtIP.setEditable(false);
         jtxtIP.setText("127.0.0.1");
 
+        jtxtClientPort.setEditable(false);
         jtxtClientPort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtClientPortActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("IP Address");
+        jLabel3.setText("Your IP");
 
-        jLabel4.setText("Client Port");
+        jLabel4.setText("Your Port");
 
         jLabel5.setText("Server Port");
 
+        jtxtServerPort.setEditable(false);
         jtxtServerPort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtServerPortActionPerformed(evt);
@@ -201,52 +186,48 @@ public class MainJFrame extends JFrame implements WindowListener{
         jPanelxxLayout.setHorizontalGroup(
             jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelxxLayout.createSequentialGroup()
+                .addGap(85, 85, 85)
                 .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelxxLayout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanelxxLayout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelxxLayout.createSequentialGroup()
-                                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtxtIP)
-                                    .addComponent(jtxtClientPort, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(131, 131, 131)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jtxtServerPort))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(113, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtxtIP, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                    .addComponent(jtxtClientPort, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                    .addComponent(jtxtServerPort))
+                .addGap(114, 114, 114)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelxxLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(408, 408, 408))
+                .addGap(332, 332, 332)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addGap(295, 295, 295))
         );
         jPanelxxLayout.setVerticalGroup(
             jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelxxLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel2)
-                .addGap(58, 58, 58)
-                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(64, 64, 64)
-                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtClientPort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelxxLayout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtxtIP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(64, 64, 64)
+                        .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtxtClientPort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addGroup(jPanelxxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxtServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(164, 164, 164))
+                    .addGroup(jPanelxxLayout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -279,7 +260,6 @@ public class MainJFrame extends JFrame implements WindowListener{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -293,7 +273,6 @@ public class MainJFrame extends JFrame implements WindowListener{
 
     @Override
     public void windowOpened(WindowEvent we) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -307,26 +286,21 @@ public class MainJFrame extends JFrame implements WindowListener{
 
     @Override
     public void windowClosed(WindowEvent we) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowIconified(WindowEvent we) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowDeiconified(WindowEvent we) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowActivated(WindowEvent we) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowDeactivated(WindowEvent we) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

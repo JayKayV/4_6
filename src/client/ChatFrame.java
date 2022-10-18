@@ -21,35 +21,39 @@ import data.DataFile;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.swing.JTextPane;
+import javax.swing.WindowConstants;
 import javax.swing.text.BadLocationException;
-import tags.Decode;
-import tags.Encode;
-import tags.Tags;
+import utils.Decode;
+import utils.Encode;
+import utils.Tags;
 
-public class ChatJFrame extends javax.swing.JFrame {
-    // Socket
+public class ChatFrame extends javax.swing.JFrame {
     private static String URL_DIR = System.getProperty("user.dir");
     private Socket socketChat;
     private String nameUser = "", nameGuest = "", nameFile = "";
     public boolean isStop = false, isSendFile = false, isReceiveFile = false;
-    private ChatJFrame.ChatRoom chat;
+    private ChatFrame.ChatRoom chat;
     private int portServer = 0;
     private static final long serialVersionUID = 1L;
-    private ChatJFrame frame = this;
-        
-    public ChatJFrame(String user, String guest, Socket socket, int port) throws Exception {
+    private ChatFrame frame = this;
+
+    public ChatFrame(String user, String guest, Socket socket, int port) throws Exception {
         nameUser = user;
         nameGuest = guest;
         socketChat = socket;
-        frame = new ChatJFrame(user, guest, socket, port, port);
+        frame = new ChatFrame(user, guest, socket, port, port);
         frame.setVisible(true);
     }
-    
-    public ChatJFrame(String user, String guest, Socket socket, int port, int a) throws Exception {
+
+    public ChatFrame(String user, String guest, Socket socket, int port, int a) throws Exception {
         // TODO Auto-generated constructor stub
-	initComponents();
-        setSize(600, 600);
+        initComponents();
+//        setSize(600, 600);
         setLocationRelativeTo(this);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        jButton3.setVisible(false);
+        jButton4.setVisible(false);
+        btnSendFile.setVisible(false);
         nameUser = user;
         nameGuest = guest;
         socketChat = socket;
@@ -58,37 +62,37 @@ public class ChatJFrame extends javax.swing.JFrame {
         System.out.println("Guest: " + guest);
         System.out.println("Port: " + port);
         System.out.println("Socket: " + socket);
-        chat = new ChatJFrame.ChatRoom(socketChat, nameUser, nameGuest);
-        
+        chat = new ChatFrame.ChatRoom(socketChat, nameUser, nameGuest);
+
         lblGuestName.setText(nameGuest);
-        chat.start();	
+        chat.start();
     }
-    
+
     public void updateChat_receive(String msg) {
         appendToPane(txtDisplayMessage, "<div class='left' style='width: 40%; background-color: #f1f0f0;'>" + "    "
                 + msg + "<br>" + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute() + "</div>");
     }
-    
+
     public void updateChat_send(String msg) {
         appendToPane(txtDisplayMessage,
                 "<table class='bang' style='color: white; clear:both; width: 100%;'>" + "<tr align='right'>"
-                        + "<td style='width: 59%; '></td>" + "<td style='width: 40%; background-color: #0084ff;'>"
-                        + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute() + "<br>" + msg
-                        + "</td> </tr>" + "</table>");
+                + "<td style='width: 59%; '></td>" + "<td style='width: 40%; background-color: #0084ff;'>"
+                + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute() + "<br>" + msg
+                + "</td> </tr>" + "</table>");
     }
-    
+
     public void updateChat_notify(String msg) {
         appendToPane(txtDisplayMessage,
                 "<table class='bang' style='color: white; clear:both; width: 100%;'>" + "<tr align='right'>"
-                        + "<td style='width: 59%; '></td>" + "<td style='width: 40%; background-color: #f1c40f;'>" + msg
-                        + "</td> </tr>" + "</table>");
+                + "<td style='width: 59%; '></td>" + "<td style='width: 40%; background-color: #f1c40f;'>" + msg
+                + "</td> </tr>" + "</table>");
     }
 
     public void updateChat_send_Symbol(String msg) {
         appendToPane(txtDisplayMessage, "<table style='width: 100%;'>" + "<tr align='right'>"
                 + "<td style='width: 59%;'></td>" + "<td style='width: 40%;'>" + msg + "</td> </tr>" + "</table>");
     }
-    
+
     private void appendToPane(JTextPane tp, String msg) {
         HTMLDocument doc = (HTMLDocument) tp.getDocument();
         HTMLEditorKit editorKit = (HTMLEditorKit) tp.getEditorKit();
@@ -99,6 +103,7 @@ public class ChatJFrame extends javax.swing.JFrame {
             System.err.println(e);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,7 +126,7 @@ public class ChatJFrame extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Team 5 Messenger");
+        setTitle("Message");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -163,9 +168,10 @@ public class ChatJFrame extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setForeground(new java.awt.Color(204, 204, 204));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profile.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profile2.png"))); // NOI18N
         jLabel1.setText("Avatar");
 
+        lblGuestName.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblGuestName.setText("Name");
 
         jButton3.setText("Video");
@@ -181,7 +187,7 @@ public class ChatJFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblGuestName, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,29 +211,30 @@ public class ChatJFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(btnSendFile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtMessage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSendFile)
+                .addGap(18, 18, 18)
+                .addComponent(btnSend)
+                .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSendFile, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSendFile, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(42, 42, 42))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -249,16 +256,17 @@ public class ChatJFrame extends javax.swing.JFrame {
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
         String msg = txtMessage.getText();
-	// Clear messageif
-	if (msg.equals(""))
+        // Clear messageif
+        if (msg.equals("")) {
             return;
-            txtMessage.setText("");
-	try {
+        }
+        txtMessage.setText("");
+        try {
             chat.sendMessage(Encode.sendMessage(msg));
-	} catch (Exception e1) {
+        } catch (Exception e1) {
             e1.printStackTrace();
-	}
-	updateChat_send(msg);
+        }
+        updateChat_send(msg);
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void txtMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMessageActionPerformed
@@ -269,7 +277,7 @@ public class ChatJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSend.doClick();
-	}
+        }
     }//GEN-LAST:event_txtMessageKeyPressed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -280,9 +288,9 @@ public class ChatJFrame extends javax.swing.JFrame {
             chat.sendMessage(Tags.CHAT_CLOSE_TAG);
             chat.stopChat();
             System.gc();
-	} catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-	}
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void btnSendFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendFileActionPerformed
@@ -313,39 +321,39 @@ public class ChatJFrame extends javax.swing.JFrame {
 //	}
     }//GEN-LAST:event_btnSendFileActionPerformed
 
+    public class ChatRoom extends Thread {
 
-public class ChatRoom extends Thread {
-    private Socket connect;
-    private ObjectOutputStream outPeer;
-    private ObjectInputStream inPeer;
+        private Socket connect;
+        private ObjectOutputStream outPeer;
+        private ObjectInputStream inPeer;
 //	private boolean continueSendFile = true, finishReceive = false;
 //	private int sizeOfSend = 0, sizeOfData = 0, sizeFile = 0, sizeReceive = 0;
 //	private String nameFileReceive = "";
 //	private InputStream inFileSend;
 //	private DataFile dataFile;
-	
-    public ChatRoom(Socket connection, String name, String guest) throws Exception {
+
+        public ChatRoom(Socket connection, String name, String guest) throws Exception {
             connect = new Socket();
             connect = connection;
             nameGuest = guest;
             System.out.println(connect);
-	}
+        }
 
-    @Override
-    public void run() {
+        @Override
+        public void run() {
             super.run();
             System.out.println("Chat Room start");
             OutputStream out = null;
-            
+
             while (!isStop) {
-		try {
+                try {
                     inPeer = new ObjectInputStream(connect.getInputStream());
                     Object obj = inPeer.readObject();
                     if (obj instanceof String) {
                         String msgObj = obj.toString();
                         if (msgObj.equals(Tags.CHAT_CLOSE_TAG)) {
                             isStop = true;
-                            Tags.show(frame, nameGuest + " closed chat with you! This windows will also be closed.",false);
+                            Tags.show(frame, nameGuest + " closed chat with you! This windows will also be closed.", false);
                             try {
                                 isStop = true;
                                 frame.dispose();
@@ -357,7 +365,7 @@ public class ChatRoom extends Thread {
                             }
                             connect.close();
                             break;
-			} else {
+                        } else {
                             String message = Decode.getMessage(msgObj);
                             updateChat_receive(message);
                         }
@@ -367,35 +375,35 @@ public class ChatRoom extends Thread {
 //                    if (fileTemp.exists() && !finishReceive) {
 //                        fileTemp.delete();
 //                    }
-		}
+                }
             }
         }
-    
-    // void send Message
-    public synchronized void sendMessage(Object obj) throws Exception {
-	outPeer = new ObjectOutputStream(connect.getOutputStream());
-	// only send text
-	if (obj instanceof String) {
-	String message = obj.toString();
-	outPeer.writeObject(message);
-	outPeer.flush();
-	if (isReceiveFile)
-		isReceiveFile = false;                              
-	}
-	// send attach file
-	else if (obj instanceof DataFile) {
-		outPeer.writeObject(obj);
-		outPeer.flush();
-		}
-	}
 
-    public void stopChat() {
-	try {
-            connect.close();
-	} catch (IOException e) {
-            e.printStackTrace();
-	}
-    }
+        // void send Message
+        public synchronized void sendMessage(Object obj) throws Exception {
+            outPeer = new ObjectOutputStream(connect.getOutputStream());
+            // only send text
+            if (obj instanceof String) {
+                String message = obj.toString();
+                outPeer.writeObject(message);
+                outPeer.flush();
+                if (isReceiveFile) {
+                    isReceiveFile = false;
+                }
+            } // send attach file
+            else if (obj instanceof DataFile) {
+                outPeer.writeObject(obj);
+                outPeer.flush();
+            }
+        }
+
+        public void stopChat() {
+            try {
+                connect.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 //    public void copyFileReceive(InputStream inputStr, OutputStream outputStr, String path) throws IOException {
 //		byte[] buffer = new byte[1024];
 //		int lenght;
@@ -409,7 +417,7 @@ public class ChatRoom extends Thread {
 //			fileTemp.delete();
 //		}
 //	}
-}
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSend;
     private javax.swing.JButton btnSendFile;
